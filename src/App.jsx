@@ -72,7 +72,7 @@ function Artwork({
       <img
         src={`${import.meta.env.BASE_URL}assets/${file}`}
         alt=""
-        loading={type === "hero-art" ? "eager" : "lazy"}
+        loading="lazy"
         decoding="async"
         style={{
           width: `${(sourceWidth / width) * 100}%`,
@@ -198,17 +198,14 @@ function Hero() {
   return (
     <section id="home" className="hero-section" aria-labelledby="hero-title">
       <div className="hero dark">
+        <img
+          className="hero-art"
+          src={`${import.meta.env.BASE_URL}assets/hero-background.jpg`}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+        />
         <div className="container hero-inner">
-          <Artwork
-            type="hero-art"
-            file="hero-ribbed.png"
-            width={590}
-            height={537}
-            x={690}
-            y={65}
-            sourceWidth={1280}
-            sourceHeight={878}
-          />
           <div className="hero-copy">
             <p className="eyebrow">
               Strategic finance · Georgia &amp; the Caucasus
@@ -235,7 +232,7 @@ function Hero() {
       <div className="credentials container">
         <div>
           <p className="eyebrow">Founder-led expertise</p>
-          <h3>Lasha Khanishvili</h3>
+          <h2 id="about-title">Lasha Khanishvili</h2>
           <p>ACCA Qualified · MBA, Webster University</p>
         </div>
         <div>
@@ -261,15 +258,6 @@ function Expertise({ onEnquire }) {
           <div>
             <p className="eyebrow">How we help</p>
             <h2 id="expertise-title">Expertise for your next stage.</h2>
-          </div>
-          <div className="expertise-aside">
-            <p>
-              Practical financial support, <br />
-              built around your business.
-            </p>
-            <a className="text-link" href="#services">
-              Explore our services <Arrow />
-            </a>
           </div>
         </div>
         <div id="services" className="services-grid">
@@ -353,19 +341,6 @@ function About() {
       className="about container"
       aria-labelledby="about-title"
     >
-      <div className="section-heading reveal">
-        <div>
-          <p className="eyebrow">Founder-led advisory</p>
-          <h2 id="about-title">
-            Senior expertise. <br />
-            Personal commitment.
-          </h2>
-        </div>
-        <p className="about-statement">
-          International standards. <br />
-          Local understanding. <br />A direct conversation.
-        </p>
-      </div>
       <div className="founder-grid">
         <div className="portrait-frame reveal">
           <img
@@ -378,7 +353,7 @@ function About() {
           />
         </div>
         <div className="founder-copy reveal">
-          <h3>Lasha Khanishvili</h3>
+          <h2 id="about-title">Lasha Khanishvili</h2>
           <div className="founder-role">
             <p>Founder, Alpha Advisory</p>
             <LinkedInLink>View profile</LinkedInLink>
@@ -395,7 +370,6 @@ function About() {
             <div className="experience">
               <strong>15+</strong>
               <p>years in finance &amp; accounting</p>
-              <small>Founder’s professional experience</small>
             </div>
             <div>
               <h4>
@@ -407,12 +381,6 @@ function About() {
               <h4>MBA</h4>
               <p>Webster University</p>
             </div>
-          </div>
-          <div className="industries">
-            <p className="eyebrow">Experience across</p>
-            <p>
-              Energy <span>·</span> Construction <span>·</span> Aviation
-            </p>
           </div>
           <Button note>Speak with Lasha</Button>
         </div>

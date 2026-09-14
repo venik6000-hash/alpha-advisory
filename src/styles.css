@@ -252,18 +252,22 @@ button:hover .arrow {
   max-width: none;
 }
 .hero {
+  position: relative;
   overflow: hidden;
   background: #081c2a;
+}
+.hero-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
 }
 .hero-inner {
   position: relative;
   min-height: 539px;
-}
-.hero-art {
-  width: 590px;
-  right: -60px;
-  top: 0;
-  mask-image: linear-gradient(to right, transparent, #000 11%);
 }
 .hero-copy {
   padding-block: 50px 67px;
@@ -338,13 +342,13 @@ h1 {
 /* Expertise. */
 #expertise {
   margin-top: 24px;
-  border-top: 1px solid #e2e7ed;
 }
 .expertise-content {
   padding-block: var(--section-space);
 }
 .expertise-content .section-heading {
   padding-bottom: 12px;
+  border-bottom: 0;
 }
 .section-heading {
   display: flex;
@@ -355,16 +359,6 @@ h1 {
 }
 .section-heading .eyebrow {
   margin-bottom: 5px;
-}
-.expertise-aside {
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.5;
-}
-.expertise-aside .text-link {
-  color: #0a1327;
-  font-size: 12px;
-  margin-top: 7px;
 }
 .services-grid {
   display: grid;
@@ -462,6 +456,7 @@ h1 {
   letter-spacing: -0.5px;
 }
 .approach-body {
+  margin-block: 40px;
   height: 498px;
   position: relative;
 }
@@ -525,23 +520,8 @@ h1 {
 .about {
   padding-block: var(--section-space);
 }
-.about .section-heading {
-  padding-bottom: 24px;
-  margin-bottom: 28px;
-}
-.about h2 {
-  font-size: 76px;
-  line-height: 0.98;
-  letter-spacing: -1.9px;
-}
 .about .eyebrow {
   letter-spacing: 1.6px;
-}
-.about-statement {
-  font-size: 22px;
-  line-height: 1.4;
-  color: var(--muted);
-  margin-top: 9px;
 }
 .founder-grid {
   display: grid;
@@ -565,7 +545,7 @@ h1 {
   min-width: 0;
   padding-top: 2px;
 }
-.founder-copy > h3 {
+.founder-copy > h2 {
   font-size: 64px;
   line-height: 1.05;
   letter-spacing: -1.5px;
@@ -651,26 +631,6 @@ h1 {
 .founder-credentials > div:last-child p {
   color: var(--muted);
   margin-top: 6px;
-}
-.founder-credentials small {
-  color: #78849c;
-  font-size: 12px;
-  letter-spacing: -0.3px;
-}
-.industries {
-  margin-top: 28px;
-}
-.industries .eyebrow {
-  font-size: 10px;
-  margin-bottom: 6px;
-}
-.industries > p:last-child {
-  font-size: 18px;
-  letter-spacing: -0.5px;
-}
-.industries span {
-  margin: 0 10px;
-  color: #1236ac;
 }
 .founder-copy .cta {
   margin-top: 22px;
@@ -1049,9 +1009,6 @@ textarea:focus {
 .hero-copy {
   animation: hero-enter 0.85s both;
 }
-.hero-art {
-  animation: artwork-enter 1.3s both;
-}
 @keyframes hero-enter {
   from {
     opacity: 0;
@@ -1074,16 +1031,11 @@ textarea:focus {
 }
 
 @media (min-width: 1440px) {
-  .hero-art {
-    right: -60px;
-    width: 650px;
-    top: -25px;
-  }
   .hero-copy {
     padding-top: 55px;
   }
   .hero-inner {
-    min-height: 550px;
+    min-height: max(550px, 39vw);
   }
   .founder-grid {
     grid-template-columns: 440px 1fr;
@@ -1107,10 +1059,6 @@ textarea:focus {
   .navigation .header-cta {
     margin-left: 10px;
     padding-inline: 20px;
-  }
-  .hero-art {
-    right: -80px;
-    opacity: 0.85;
   }
   h1 {
     font-size: 86px;
@@ -1161,17 +1109,11 @@ textarea:focus {
     font-size: 15px;
     max-width: 213px;
   }
-  .about h2 {
-    font-size: 66px;
-  }
-  .about-statement {
-    font-size: 18px;
-  }
   .founder-grid {
     grid-template-columns: 34% 1fr;
     gap: 38px;
   }
-  .founder-copy > h3 {
+  .founder-copy > h2 {
     font-size: 58px;
   }
   .founder-role > p {
@@ -1192,9 +1134,6 @@ textarea:focus {
   }
   .founder-credentials p {
     font-size: 14px;
-  }
-  .founder-credentials small {
-    font-size: 10px;
   }
   .founder-credentials h4 {
     font-size: 32px;
@@ -1250,9 +1189,6 @@ textarea:focus {
   .navigation > a {
     font-size: 11px;
   }
-  .hero-art {
-    right: -160px;
-  }
   .hero-copy {
     width: 590px;
   }
@@ -1271,9 +1207,6 @@ textarea:focus {
   }
   .section-heading h2 {
     font-size: 43px;
-  }
-  .expertise-aside {
-    font-size: 12px;
   }
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1333,19 +1266,13 @@ textarea:focus {
     min-width: 230px;
     padding-inline: 20px;
   }
-  .about .section-heading h2 {
-    font-size: 55px;
-  }
-  .about-statement {
-    font-size: 16px;
-  }
   .founder-grid {
     gap: 30px;
   }
   .portrait-frame {
     height: 520px;
   }
-  .founder-copy > h3 {
+  .founder-copy > h2 {
     font-size: 48px;
   }
   .founder-role {
@@ -1369,15 +1296,6 @@ textarea:focus {
   }
   .founder-credentials p {
     font-size: 12px;
-  }
-  .industries {
-    margin-top: 22px;
-  }
-  .industries > p:last-child {
-    font-size: 15px;
-  }
-  .industries span {
-    margin: 0 5px;
   }
   .network h2 {
     font-size: 51px;
@@ -1435,6 +1353,16 @@ textarea:focus {
 }
 
 @media (max-width: 700px) {
+  .hero-art {
+    inset: auto 0 0;
+    height: 340px;
+    object-position: right bottom;
+    mask-image: linear-gradient(to bottom, transparent, #000 25%);
+  }
+  .hero .hero-inner {
+    padding-bottom: 340px;
+  }
+
   :root {
     --section-space: 48px;
   }
@@ -1550,20 +1478,6 @@ textarea:focus {
     padding-top: 0;
     font-size: 13px;
   }
-  .hero-art {
-    position: relative;
-    order: 1;
-    align-self: flex-end;
-    width: 320px;
-    max-width: calc(100% + 20px);
-    margin-top: 8px;
-    margin-right: -20px;
-    right: auto;
-    top: auto;
-    bottom: 0;
-    opacity: 1;
-    mask-image: linear-gradient(to bottom, transparent, #000 15%);
-  }
   .hero-actions .cta {
     position: relative;
     z-index: 2;
@@ -1604,16 +1518,6 @@ textarea:focus {
   }
   .eyebrow {
     font-size: 10px;
-  }
-  .expertise-aside {
-    margin-top: 18px;
-    font-size: 14px;
-  }
-  .expertise-aside br {
-    display: none;
-  }
-  .expertise-aside .text-link {
-    margin-top: 9px;
   }
   .services-grid {
     grid-template-columns: 1fr;
@@ -1664,6 +1568,7 @@ textarea:focus {
     padding-inline: 8px;
   }
   .approach-body {
+    margin-block: 24px;
     height: auto;
     padding-top: 322px;
   }
@@ -1704,20 +1609,6 @@ textarea:focus {
   .approach-bottom .button {
     width: 100%;
   }
-  .about .section-heading h2 {
-    font-size: 49px;
-    line-height: 1.02;
-  }
-  .about-statement {
-    margin-top: 20px;
-    font-size: 17px;
-  }
-  .about-statement br {
-    display: none;
-  }
-  .about .section-heading {
-    margin-bottom: 24px;
-  }
   .founder-grid {
     grid-template-columns: 1fr;
     gap: 27px;
@@ -1729,7 +1620,7 @@ textarea:focus {
   .founder-portrait {
     aspect-ratio: 405 / 530;
   }
-  .founder-copy > h3 {
+  .founder-copy > h2 {
     font-size: 50px;
   }
   .founder-role {
@@ -1760,20 +1651,8 @@ textarea:focus {
     line-height: 1.35;
     letter-spacing: -0.3px;
   }
-  .founder-credentials small {
-    display: block;
-    margin-top: 5px;
-    font-size: 10px;
-    line-height: 1.4;
-  }
   .founder-credentials > div + div {
     padding-left: 14px;
-  }
-  .industries {
-    margin-top: 26px;
-  }
-  .industries > p:last-child {
-    font-size: 16px;
   }
   .founder-copy .button {
     min-width: 260px;
@@ -1922,16 +1801,10 @@ textarea:focus {
   .hero-inner {
     min-height: 0;
   }
-  .hero-art {
-    width: 290px;
-  }
   .contact h2 {
     font-size: 48px;
   }
-  .about .section-heading h2 {
-    font-size: 43px;
-  }
-  .founder-copy > h3 {
+  .founder-copy > h2 {
     font-size: 44px;
   }
   .network h2 {
@@ -1939,9 +1812,6 @@ textarea:focus {
   }
   .founder-credentials h4 {
     font-size: 24px;
-  }
-  .industries > p:last-child {
-    font-size: 14px;
   }
 }
 
