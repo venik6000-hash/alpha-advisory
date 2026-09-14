@@ -10,6 +10,7 @@
   --blue: #1558ff;
   --muted: #586780;
   --line: #d3dce6;
+  --section-space: 72px;
   --serif: "Times New Roman", Times, "Liberation Serif", serif;
 }
 
@@ -265,7 +266,7 @@ button:hover .arrow {
   mask-image: linear-gradient(to right, transparent, #000 11%);
 }
 .hero-copy {
-  padding-block: 50px 35px;
+  padding-block: 50px 67px;
   position: relative;
   z-index: 1;
   width: 690px;
@@ -306,7 +307,7 @@ h1 {
 .credentials {
   display: grid;
   grid-template-columns: 1fr 1.11fr 1.07fr;
-  padding-block: 23px;
+  padding-block: 40px;
   min-height: 126px;
 }
 .credentials > div {
@@ -336,12 +337,11 @@ h1 {
 
 /* Expertise. */
 #expertise {
-  margin-top: 70px;
+  margin-top: 24px;
   border-top: 1px solid #e2e7ed;
 }
 .expertise-content {
-  padding-top: 32px;
-  padding-bottom: 27px;
+  padding-block: var(--section-space);
 }
 .expertise-content .section-heading {
   padding-bottom: 12px;
@@ -437,8 +437,7 @@ h1 {
 .approach {
   background:
     radial-gradient(ellipse at 80% 0, #03304880, transparent 50%), #001c2d;
-  padding-top: 40px;
-  padding-bottom: 38px;
+  padding-block: var(--section-space);
   overflow: hidden;
 }
 .approach-heading {
@@ -524,7 +523,7 @@ h1 {
 
 /* Founder. */
 .about {
-  padding-block: 35px 28px;
+  padding-block: var(--section-space);
 }
 .about .section-heading {
   padding-bottom: 24px;
@@ -690,8 +689,7 @@ h1 {
 .network {
   background:
     radial-gradient(ellipse at 83% 27%, #153048, transparent 48%), #051c2c;
-  padding-top: 72px;
-  padding-bottom: 49px;
+  padding-block: var(--section-space);
   overflow: hidden;
 }
 .network-main {
@@ -834,8 +832,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 80px;
-  padding-top: 35px;
-  padding-bottom: 44px;
+  padding-block: var(--section-space);
 }
 .contact .eyebrow {
   margin-bottom: 13px;
@@ -974,7 +971,7 @@ textarea:focus {
   margin-top: 8px;
 }
 .footer {
-  padding-block: 20px 25px;
+  padding-block: 40px 32px;
 }
 .footer-top {
   display: flex;
@@ -1382,9 +1379,6 @@ textarea:focus {
   .industries span {
     margin: 0 5px;
   }
-  .network {
-    padding-top: 50px;
-  }
   .network h2 {
     font-size: 51px;
   }
@@ -1441,6 +1435,9 @@ textarea:focus {
 }
 
 @media (max-width: 700px) {
+  :root {
+    --section-space: 48px;
+  }
   html {
     scroll-padding-top: 64px;
   }
@@ -1577,7 +1574,7 @@ textarea:focus {
   }
   .credentials {
     grid-template-columns: 1fr;
-    padding-block: 6px;
+    padding-block: 24px;
     gap: 0;
   }
   .credentials > div,
@@ -1597,9 +1594,6 @@ textarea:focus {
   }
   .credentials p:not(.eyebrow) {
     font-size: 12px;
-  }
-  .expertise-content {
-    padding-block: 34px 15px;
   }
   .section-heading {
     display: block;
@@ -1653,9 +1647,6 @@ textarea:focus {
   }
   .service ul {
     margin-block: 14px;
-  }
-  .approach {
-    padding-block: 35px 30px;
   }
   .approach-heading h2 {
     font-size: 52px;
@@ -1712,9 +1703,6 @@ textarea:focus {
   .approach-bottom .cta,
   .approach-bottom .button {
     width: 100%;
-  }
-  .about {
-    padding-block: 35px;
   }
   .about .section-heading h2 {
     font-size: 49px;
@@ -1794,9 +1782,6 @@ textarea:focus {
   .founder-copy .cta small {
     font-size: 12px;
   }
-  .network {
-    padding-block: 36px 30px;
-  }
   .network-main {
     min-height: 0;
   }
@@ -1853,7 +1838,6 @@ textarea:focus {
   .contact {
     grid-template-columns: 1fr;
     gap: 30px;
-    padding-block: 35px;
   }
   .contact h2 {
     font-size: 56px;
