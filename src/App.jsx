@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { linkedin, navigation, services, steps } from "./content.js";
 import ContactForm from "./ContactForm.jsx";
 import Globe from "./Globe.jsx";
-
-function Arrow({ straight = false }) {
-  return (
-    <span className="arrow" aria-hidden="true">
-      {straight ? "⟶" : "↗"}
-    </span>
-  );
-}
+import Arrow from "./Arrow.jsx";
 
 function Logo() {
   return (

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Arrow from "./Arrow.jsx";
 import { linkedin } from "./content.js";
 
 export default function ContactForm({ message, onMessageChange }) {
@@ -91,7 +92,7 @@ export default function ContactForm({ message, onMessageChange }) {
       </label>
       <button className="button" type="submit" disabled={sending}>
         {sending ? "Sending…" : "Send message"}{" "}
-        <span aria-hidden="true">↗</span>
+        <Arrow />
       </button>
       <p className="form-note">Fields marked * are required.</p>
       {status && (
@@ -99,7 +100,7 @@ export default function ContactForm({ message, onMessageChange }) {
           {status}
           {!status.startsWith("Thank you") && (
             <a href={linkedin} target="_blank" rel="noopener noreferrer">
-              Connect with Lasha <span aria-hidden="true">↗</span>
+              Connect with Lasha <Arrow />
             </a>
           )}
         </div>
