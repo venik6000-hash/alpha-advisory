@@ -526,12 +526,14 @@ h1 {
 }
 .founder-grid {
   display: grid;
-  grid-template-columns: 405px 1fr;
-  gap: 53px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr);
+  align-items: start;
+  gap: 64px;
 }
 .portrait-frame {
   overflow: hidden;
-  height: 530px;
+  height: 100%;
+  min-height: 560px;
 }
 .founder-portrait {
   display: block;
@@ -544,24 +546,24 @@ h1 {
 }
 .founder-copy {
   min-width: 0;
-  padding-top: 2px;
+  padding-block: 8px;
 }
 .founder-copy > h2 {
-  font-size: 64px;
-  line-height: 1.05;
+  font-size: 56px;
+  line-height: 1.1;
   letter-spacing: -1.5px;
 }
 .founder-role {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 15px 24px;
-  margin-top: 3px;
+  gap: 12px 24px;
+  margin-top: 16px;
 }
 .founder-role > p {
-  font-size: 25px;
+  font-size: 21px;
   color: var(--muted);
-  letter-spacing: -0.6px;
+  line-height: 1.5;
 }
 .linkedin-link {
   display: inline-flex;
@@ -594,47 +596,52 @@ h1 {
   font-size: 23px;
 }
 .founder-bio {
-  margin-top: 26px;
+  max-width: 64ch;
+  margin-top: 32px;
   color: var(--muted);
-  font-size: 19px;
-  line-height: 1.45;
-  letter-spacing: -0.45px;
+  font-size: 18px;
+  line-height: 1.7;
 }
 .founder-bio p + p {
-  margin-top: 15px;
+  margin-top: 16px;
 }
 .founder-credentials {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 0.95fr;
-  margin-top: 26px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 32px;
+  padding-block: 24px;
+  border-block: 1px solid var(--line);
+}
+.founder-credentials > div {
+  display: grid;
+  grid-template-rows: 64px auto;
+  align-content: start;
+  gap: 12px;
+  padding-right: 20px;
 }
 .founder-credentials > div + div {
   border-left: 1px solid var(--line);
-  padding: 7px 0 0 30px;
+  padding-left: 24px;
 }
 .founder-credentials strong {
-  display: block;
-  font: 88px/0.7 var(--serif);
+  align-self: end;
+  font: 64px/1 var(--serif);
   color: var(--blue);
-  letter-spacing: -4px;
-  margin-bottom: 8px;
+  letter-spacing: -2px;
 }
 .founder-credentials h4 {
+  align-self: end;
   font-size: 36px;
-  line-height: 0.94;
+  line-height: 1.15;
   letter-spacing: -0.6px;
 }
 .founder-credentials p {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.5;
-  letter-spacing: -0.7px;
-}
-.founder-credentials > div:last-child p {
   color: var(--muted);
-  margin-top: 6px;
 }
 .founder-copy .cta {
-  margin-top: 22px;
+  margin-top: 32px;
 }
 .founder-copy .button {
   min-width: 285px;
@@ -1038,11 +1045,8 @@ textarea:focus {
   .hero-inner {
     min-height: max(550px, 39vw);
   }
-  .founder-grid {
-    grid-template-columns: 440px 1fr;
-  }
   .portrait-frame {
-    height: 550px;
+    height: 580px;
   }
   .network h2 {
     font-size: 72px;
@@ -1271,6 +1275,7 @@ textarea:focus {
   }
   .portrait-frame {
     height: 520px;
+    min-height: 0;
   }
   .founder-copy > h2 {
     font-size: 48px;
@@ -1286,10 +1291,13 @@ textarea:focus {
     margin-top: 23px;
   }
   .founder-credentials strong {
-    font-size: 72px;
+    font-size: 56px;
   }
   .founder-credentials h4 {
     font-size: 28px;
+  }
+  .founder-credentials > div {
+    padding-right: 10px;
   }
   .founder-credentials > div + div {
     padding-left: 14px;
@@ -1631,6 +1639,7 @@ textarea:focus {
   }
   .portrait-frame {
     height: auto;
+    min-height: 0;
     aspect-ratio: 405 / 530;
   }
   .founder-portrait {
@@ -1653,11 +1662,11 @@ textarea:focus {
     margin-top: 22px;
   }
   .founder-credentials {
-    grid-template-columns: 1.25fr 0.9fr 0.95fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: 28px;
   }
   .founder-credentials strong {
-    font-size: 73px;
+    font-size: 56px;
   }
   .founder-credentials h4 {
     font-size: 28px;
@@ -1666,6 +1675,9 @@ textarea:focus {
     font-size: 12px;
     line-height: 1.35;
     letter-spacing: -0.3px;
+  }
+  .founder-credentials > div {
+    padding-right: 10px;
   }
   .founder-credentials > div + div {
     padding-left: 14px;

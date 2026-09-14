@@ -372,10 +372,8 @@ function About() {
               <p>years in finance &amp; accounting</p>
             </div>
             <div>
-              <h4>
-                ACCA <br />
-                Qualified
-              </h4>
+              <h4>ACCA</h4>
+              <p>Qualified</p>
             </div>
             <div>
               <h4>MBA</h4>
