@@ -201,13 +201,13 @@ function Hero() {
         <div className="container hero-inner">
           <Artwork
             type="hero-art"
-            file="hero-source.jpg"
+            file="hero-ribbed.png"
             width={590}
             height={537}
             x={690}
             y={65}
             sourceWidth={1280}
-            sourceHeight={879}
+            sourceHeight={878}
           />
           <div className="hero-copy">
             <p className="eyebrow">
