@@ -56,7 +56,6 @@ export default function Globe({ fallback }) {
       <div className="globe-canvas" ref={host} />
       {ready && (
         <div className="globe-controls">
-          <span>Drag to rotate</span>
           <button
             type="button"
             aria-label={

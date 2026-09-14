@@ -79,6 +79,23 @@ test("the 3D globe renders, can be dragged, and supports keyboard rotation", asy
     .toBe(false);
 });
 
+test("the globe controls keep rotation control without the drag hint", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#network");
+  await expect(page.locator(".interactive-globe")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  await expect(page.getByText("Drag to rotate", { exact: true })).toHaveCount(
+    0,
+  );
+  await expect(
+    page.getByRole("button", { name: "Start globe rotation" }),
+  ).toBeVisible();
+});
+
 test("the original illustration stays available when WebGL is unavailable", async ({
   page,
 }) => {
