@@ -432,33 +432,6 @@ h1 {
 .service .text-link:hover {
   color: var(--blue);
 }
-.expertise-cta {
-  padding-block: 28px 30px;
-  background: linear-gradient(110deg, #0b2334, #0a2031);
-}
-.expertise-cta > .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-}
-.expertise-cta h2 {
-  font-size: 55px;
-  letter-spacing: -0.7px;
-}
-.expertise-cta p {
-  color: #adccdf;
-  font-size: 21px;
-  line-height: 1.4;
-  margin-top: 3px;
-  letter-spacing: -0.6px;
-}
-.expertise-cta .cta {
-  flex-shrink: 0;
-}
-.expertise-cta .button {
-  min-width: 243px;
-}
 
 /* Four steps around the original sculptural tree. */
 .approach {
@@ -1208,12 +1181,6 @@ textarea:focus {
   .service h3 {
     font-size: 26px;
   }
-  .expertise-cta h2 {
-    font-size: 46px;
-  }
-  .expertise-cta p {
-    font-size: 17px;
-  }
   .approach-heading h2 {
     font-size: 72px;
   }
@@ -1370,16 +1337,6 @@ textarea:focus {
   .service:nth-last-child(-n + 2) {
     border-bottom: 0;
     margin-bottom: 0;
-  }
-  .expertise-cta > .container {
-    align-items: flex-start;
-  }
-  .expertise-cta h2 {
-    font-size: 39px;
-  }
-  .expertise-cta .button {
-    min-width: auto;
-    padding-inline: 20px;
   }
   .approach-heading h2 {
     font-size: 65px;
@@ -1730,24 +1687,6 @@ textarea:focus {
   }
   .service ul {
     margin-block: 14px;
-  }
-  .expertise-cta {
-    padding-block: 30px;
-  }
-  .expertise-cta > .container {
-    flex-direction: column;
-    gap: 24px;
-  }
-  .expertise-cta h2 {
-    font-size: 43px;
-  }
-  .expertise-cta p {
-    font-size: 17px;
-    line-height: 1.5;
-    margin-top: 10px;
-  }
-  .expertise-cta .button {
-    min-width: 240px;
   }
   .approach {
     padding-block: 35px 30px;

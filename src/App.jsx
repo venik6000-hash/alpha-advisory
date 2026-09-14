@@ -294,18 +294,6 @@ function Expertise({ onEnquire }) {
           ))}
         </div>
       </div>
-      <div className="expertise-cta dark">
-        <div className="container">
-          <div>
-            <h2>Not sure where to start?</h2>
-            <p>
-              Tell us where your business stands. We’ll help define the next
-              step.
-            </p>
-          </div>
-          <Button note>Discuss your priorities</Button>
-        </div>
-      </div>
     </section>
   );
 }
