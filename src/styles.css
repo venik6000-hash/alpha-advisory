@@ -336,6 +336,7 @@ h1 {
 
 /* Expertise. */
 #expertise {
+  margin-top: 70px;
   border-top: 1px solid #e2e7ed;
 }
 .expertise-content {
