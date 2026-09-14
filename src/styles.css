@@ -282,7 +282,7 @@ button:hover .arrow {
 }
 h1 {
   font-size: 98px;
-  line-height: 0.85;
+  line-height: 1.05;
   letter-spacing: -2px;
   margin-top: 14px;
 }
@@ -1453,7 +1453,7 @@ textarea:focus {
   }
   h1 {
     font-size: 60px;
-    line-height: 0.92;
+    line-height: 1.08;
     letter-spacing: -1.5px;
     margin-top: 20px;
   }
