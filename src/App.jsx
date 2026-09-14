@@ -16,10 +16,10 @@ function Logo() {
   );
 }
 
-function LinkedInLink({ children, compact = false }) {
+function LinkedInLink({ children }) {
   return (
     <a
-      className={`linkedin-link${compact ? " compact" : ""}`}
+      className="linkedin-link"
       href={linkedin}
       target="_blank"
       rel="noopener noreferrer"
@@ -34,9 +34,9 @@ function LinkedInLink({ children, compact = false }) {
   );
 }
 
-function Button({ children, note = false, className = "" }) {
+function Button({ children, note = false }) {
   return (
-    <div className={`cta ${className}`}>
+    <div className="cta">
       <a className="button" href="#contact">
         {children} <Arrow />
       </a>
@@ -491,7 +491,7 @@ function Footer() {
         </div>
         <div className="footer-bottom">
           <p>© 2026 Alpha Advisory.</p>
-          <LinkedInLink compact>Lasha Khanishvili</LinkedInLink>
+          <LinkedInLink>Lasha Khanishvili</LinkedInLink>
         </div>
       </div>
     </footer>

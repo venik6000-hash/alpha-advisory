@@ -1140,17 +1140,6 @@ textarea:focus {
     transform: translateY(0);
   }
 }
-@keyframes artwork-enter {
-  from {
-    opacity: 0;
-    transform: translateX(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @media (min-width: 1440px) {
   .hero-copy {
     padding-top: 55px;
