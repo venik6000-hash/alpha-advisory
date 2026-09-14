@@ -74,48 +74,9 @@ function createGeorgiaPin() {
     Math.sin(latitude),
     -Math.cos(latitude) * Math.sin(longitude),
   );
-  const pin = new THREE.Group();
-  pin.position.copy(normal).multiplyScalar(1.024);
-  pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
-
-  const gold = new THREE.MeshStandardMaterial({
-    color: 0xf1d5a0,
-    metalness: 0.65,
-    roughness: 0.3,
-  });
-  const blue = new THREE.MeshBasicMaterial({
-    color: 0x246bff,
-    toneMapped: false,
-  });
-  const stem = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.009, 0.004, 0.13, 16),
-    gold,
-  );
-  stem.position.y = 0.065;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.041, 32, 24), blue);
-  head.position.y = 0.15;
-  const collar = new THREE.Mesh(
-    new THREE.TorusGeometry(0.043, 0.004, 8, 40),
-    gold,
-  );
-  collar.rotation.x = Math.PI / 2;
-  collar.position.y = 0.15;
-  const base = new THREE.Mesh(
-    new THREE.TorusGeometry(0.046, 0.004, 8, 40),
-    gold,
-  );
-  base.rotation.x = Math.PI / 2;
-  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.014, 16, 12), blue);
-  pin.add(stem, head, collar, base, dot);
-
-  return {
-    object: pin,
-    dispose() {
-      for (const part of pin.children) part.geometry.dispose();
-      gold.dispose();
-      blue.dispose();
-    },
-  };
+  const anchor = new THREE.Object3D();
+  anchor.position.copy(normal).multiplyScalar(1.024);
+  return anchor;
 }
 
 export function createGlobe(host, { autoRotate, onReady, onFailure }) {
@@ -172,12 +133,58 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
   });
   const earth = new THREE.Mesh(geometry, material);
   const georgiaPin = createGeorgiaPin();
-  earth.add(georgiaPin.object);
+  earth.add(georgiaPin);
   function reset() {
     earth.rotation.set(0.26, -Math.PI * 0.61, -0.1);
   }
   reset();
   scene.add(earth);
+
+  const marker = document.createElement("div");
+  marker.className = "globe-marker";
+  marker.setAttribute("aria-hidden", "true");
+  marker.innerHTML = `
+    <svg class="globe-leader" viewBox="0 0 48 40" fill="none">
+      <path class="globe-leader-outline" d="M0 40 L28 8 H48" />
+      <path class="globe-leader-line" d="M0 40 L28 8 H48" />
+    </svg>
+    <span class="globe-dot"></span>
+    <span class="globe-label">Georgia</span>
+  `;
+  host.appendChild(marker);
+  const label = marker.querySelector(".globe-label");
+  const leaderPaths = marker.querySelectorAll(".globe-leader path");
+  const pinPosition = new THREE.Vector3();
+  const cameraDirection = new THREE.Vector3();
+  const labelPosition = new THREE.Vector3();
+
+  function updateLabel() {
+    georgiaPin.getWorldPosition(pinPosition);
+    cameraDirection.copy(camera.position).sub(pinPosition);
+    marker.hidden = pinPosition.dot(cameraDirection) <= 0;
+    if (marker.hidden) return;
+    labelPosition.copy(pinPosition).project(camera);
+    const x = ((labelPosition.x + 1) / 2) * host.clientWidth;
+    const y = ((1 - labelPosition.y) / 2) * host.clientHeight;
+    // Move the annotation continuously across the anchor as it approaches an edge.
+    const labelWidth = label.offsetWidth;
+    const blend = THREE.MathUtils.smoothstep(x / host.clientWidth, 0.3, 0.8);
+    const offset = (48 + labelWidth / 2) * (1 - 2 * blend);
+    const center = THREE.MathUtils.clamp(
+      x + offset,
+      labelWidth / 2 + 8,
+      host.clientWidth - labelWidth / 2 - 8,
+    );
+    const left = center - labelWidth / 2 - x;
+    label.style.left = `${left}px`;
+    const endX = THREE.MathUtils.clamp(0, left, left + labelWidth);
+    const elbowX = endX - Math.sign(endX) * Math.min(20, Math.abs(endX));
+    for (const path of leaderPaths) {
+      path.setAttribute("d", `M0 40 L${elbowX} 8 H${endX}`);
+    }
+    marker.style.left = `${x}px`;
+    marker.style.top = `${y}px`;
+  }
 
   let disposed = false;
   let visible = true;
@@ -216,6 +223,7 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
     }
     if (dirty) {
       renderer.render(scene, camera);
+      updateLabel();
       dirty = false;
     }
     frame = requestAnimationFrame(render);
@@ -340,6 +348,7 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
+  updateLabel();
   onReady();
 
   return {
@@ -351,13 +360,13 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
       Object.entries(events).forEach(([name, callback]) =>
         canvas.removeEventListener(name, callback),
       );
-      georgiaPin.dispose();
       geometry.dispose();
       material.dispose();
       map.dispose();
       bump.dispose();
       renderer.dispose();
       canvas.remove();
+      marker.remove();
     },
   };
 }
