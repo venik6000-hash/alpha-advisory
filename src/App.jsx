@@ -300,15 +300,13 @@ function Approach() {
           <p>Financial insight. Practical action. Lasting confidence.</p>
         </div>
         <div className="approach-body">
-          <Artwork
-            type="tree-art"
-            file="approach-source.jpg"
-            width={574}
-            height={486}
-            x={354}
-            y={250}
-            sourceWidth={1280}
-            sourceHeight={880}
+          <img
+            className="tree-art"
+            src={`${import.meta.env.BASE_URL}assets/approach-tree-grounded.png`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
           />
           <div className="steps">
             {steps.map((step) => (

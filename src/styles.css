@@ -471,14 +471,19 @@ h1 {
   position: relative;
 }
 .tree-art {
-  width: 574px;
+  --tree-width: 574px;
+  --tree-top: 12px;
+  position: absolute;
+  width: max(100vw, calc(var(--tree-width) * 3));
+  max-width: none;
+  height: var(--tree-width);
+  object-fit: cover;
+  object-position: center top;
+  pointer-events: none;
   left: 50%;
-  top: 12px;
+  top: calc(var(--tree-top) - var(--tree-width) * 0.03);
   transform: translateX(-50%);
-  mask-image:
-    linear-gradient(to right, transparent, #000 9%, #000 91%, transparent),
-    linear-gradient(to bottom, transparent, #000 4%, #000 95%, transparent);
-  mask-composite: intersect;
+  mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 86%, transparent);
 }
 .steps {
   position: relative;
@@ -509,6 +514,7 @@ h1 {
   max-width: 255px;
 }
 .approach-bottom {
+  position: relative;
   border-top: 1px solid #5a7586;
   padding-top: 19px;
   display: flex;
@@ -732,15 +738,28 @@ h1 {
 .interactive-globe::before {
   content: "";
   position: absolute;
-  width: 65%;
-  height: 8%;
-  bottom: 4%;
-  left: 18%;
+  width: 48%;
+  height: 6%;
+  bottom: 3%;
+  left: 26%;
   background: #010c17;
   filter: blur(13px);
   opacity: 0.6;
   border-radius: 50%;
   z-index: -1;
+  pointer-events: none;
+}
+.interactive-globe::after {
+  content: "";
+  position: absolute;
+  width: 170%;
+  aspect-ratio: 3 / 1;
+  top: 62%;
+  left: -35%;
+  background: url("/assets/globe-floor-reflection.png") center / cover no-repeat;
+  mask-image: radial-gradient(ellipse at center, #000 35%, transparent 71%);
+  pointer-events: none;
+  z-index: -2;
 }
 .globe-canvas {
   position: absolute;
@@ -854,6 +873,7 @@ h1 {
   );
 }
 .globe-wrapper > p {
+  position: relative;
   text-align: center;
   font-size: 12px;
   letter-spacing: 1px;
@@ -1194,8 +1214,8 @@ textarea:focus {
     font-size: 72px;
   }
   .tree-art {
-    width: 500px;
-    top: 65px;
+    --tree-width: 500px;
+    --tree-top: 65px;
   }
   .steps {
     grid-template-columns: 235px 220px;
@@ -1342,8 +1362,8 @@ textarea:focus {
     height: 485px;
   }
   .tree-art {
-    width: 420px;
-    top: 115px;
+    --tree-width: 420px;
+    --tree-top: 115px;
   }
   .steps {
     grid-template-columns: 210px 200px;
@@ -1690,9 +1710,8 @@ textarea:focus {
     padding-top: 322px;
   }
   .tree-art {
-    width: 370px;
-    max-width: calc(100% + 20px);
-    top: 5px;
+    --tree-width: min(370px, calc(100vw - 20px));
+    --tree-top: 5px;
   }
   .steps {
     grid-template-columns: 1fr 1fr;
