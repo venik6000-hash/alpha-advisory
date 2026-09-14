@@ -107,3 +107,48 @@ test("the globe fits mobile and can be reached without horizontal scrolling", as
     390,
   );
 });
+
+test("Georgia pin is visible at home and hidden behind the rotated Earth", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#network");
+  const globe = page.getByLabel("Interactive Earth globe", { exact: false });
+  await expect(page.locator(".interactive-globe")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  await globe.scrollIntoViewIfNeeded();
+
+  async function bluePixels() {
+    const screenshot = await globe.screenshot();
+    return page.evaluate(async (base64) => {
+      const image = new Image();
+      image.src = `data:image/png;base64,${base64}`;
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const context = canvas.getContext("2d");
+      context.drawImage(image, 0, 0);
+      const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+      let count = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        if (
+          data[i + 2] > 180 &&
+          data[i + 2] > data[i] * 2 &&
+          data[i + 2] > data[i + 1] * 1.5
+        )
+          count++;
+      }
+      return count;
+    }, screenshot.toString("base64"));
+  }
+
+  await globe.press("Home");
+  expect(await bluePixels()).toBeGreaterThan(20);
+  for (let i = 0; i < 21; i++) await globe.press("ArrowRight");
+  expect(await bluePixels()).toBe(0);
+  await globe.press("Home");
+  expect(await bluePixels()).toBeGreaterThan(20);
+});

@@ -65,6 +65,59 @@ function makeEarthTextures() {
   return { map, bump };
 }
 
+function createGeorgiaPin() {
+  // Tbilisi, Georgia (WGS84); matches the equirectangular Earth texture.
+  const latitude = THREE.MathUtils.degToRad(41.7151);
+  const longitude = THREE.MathUtils.degToRad(44.8271);
+  const normal = new THREE.Vector3(
+    Math.cos(latitude) * Math.cos(longitude),
+    Math.sin(latitude),
+    -Math.cos(latitude) * Math.sin(longitude),
+  );
+  const pin = new THREE.Group();
+  pin.position.copy(normal).multiplyScalar(1.024);
+  pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
+
+  const gold = new THREE.MeshStandardMaterial({
+    color: 0xf1d5a0,
+    metalness: 0.65,
+    roughness: 0.3,
+  });
+  const blue = new THREE.MeshBasicMaterial({
+    color: 0x246bff,
+    toneMapped: false,
+  });
+  const stem = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.009, 0.004, 0.13, 16),
+    gold,
+  );
+  stem.position.y = 0.065;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.041, 32, 24), blue);
+  head.position.y = 0.15;
+  const collar = new THREE.Mesh(
+    new THREE.TorusGeometry(0.043, 0.004, 8, 40),
+    gold,
+  );
+  collar.rotation.x = Math.PI / 2;
+  collar.position.y = 0.15;
+  const base = new THREE.Mesh(
+    new THREE.TorusGeometry(0.046, 0.004, 8, 40),
+    gold,
+  );
+  base.rotation.x = Math.PI / 2;
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.014, 16, 12), blue);
+  pin.add(stem, head, collar, base, dot);
+
+  return {
+    object: pin,
+    dispose() {
+      for (const part of pin.children) part.geometry.dispose();
+      gold.dispose();
+      blue.dispose();
+    },
+  };
+}
+
 export function createGlobe(host, { autoRotate, onReady, onFailure }) {
   let renderer;
   try {
@@ -88,7 +141,7 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
   canvas.setAttribute("role", "img");
   canvas.setAttribute(
     "aria-label",
-    "Interactive Earth globe. Drag to rotate, or use the arrow keys. Press Home to reset.",
+    "Interactive Earth globe with a pin marking Tbilisi, Georgia. Drag to rotate, or use the arrow keys. Press Home to reset.",
   );
   host.appendChild(canvas);
 
@@ -118,6 +171,8 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
     metalness: 0.12,
   });
   const earth = new THREE.Mesh(geometry, material);
+  const georgiaPin = createGeorgiaPin();
+  earth.add(georgiaPin.object);
   function reset() {
     earth.rotation.set(0.26, -Math.PI * 0.61, -0.1);
   }
@@ -296,6 +351,7 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
       Object.entries(events).forEach(([name, callback]) =>
         canvas.removeEventListener(name, callback),
       );
+      georgiaPin.dispose();
       geometry.dispose();
       material.dispose();
       map.dispose();
