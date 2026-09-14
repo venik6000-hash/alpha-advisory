@@ -341,11 +341,20 @@ h1 {
 }
 
 /* Expertise. */
-#expertise {
-  margin-top: 24px;
-}
 .expertise-content {
-  padding-block: var(--section-space);
+  position: relative;
+  border-top: 1px solid var(--line);
+  padding-top: 48px;
+  padding-bottom: var(--section-space);
+}
+.expertise-content::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: 0;
+  width: 56px;
+  height: 2px;
+  background: var(--blue);
 }
 .expertise-content .section-heading {
   padding-bottom: 12px;
@@ -604,7 +613,7 @@ h1 {
   margin-top: 32px;
   color: var(--muted);
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.5;
 }
 .founder-bio p + p {
   margin-top: 16px;
@@ -1158,7 +1167,12 @@ textarea:focus {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, #081c2a, #081c2a99 45%, transparent 80%);
+    background: linear-gradient(
+      to right,
+      #081c2a,
+      #081c2a99 45%,
+      transparent 80%
+    );
   }
   .credentials > div {
     padding-left: 28px;
@@ -1738,7 +1752,6 @@ textarea:focus {
   }
   .founder-bio {
     font-size: 16px;
-    line-height: 1.6;
     margin-top: 22px;
   }
   .founder-credentials {
