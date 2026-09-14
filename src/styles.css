@@ -789,40 +789,6 @@ h1 {
 .globe-failed .globe-canvas {
   display: none;
 }
-.globe-controls {
-  position: absolute;
-  bottom: -7px;
-  inset-inline: 0;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  color: #b1c3d4;
-  font-size: 10px;
-  letter-spacing: 0.9px;
-}
-.globe-controls button {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  padding: 5px;
-  background: transparent;
-  color: #c8d8e4;
-  border: 1px solid #8ba8bd55;
-  border-radius: 50%;
-}
-.globe-controls button:hover {
-  background: #ffffff15;
-  border-color: #afc7db;
-}
-.globe-controls svg {
-  width: 16px;
-  height: 16px;
-}
-.interactive-globe[data-ready="true"] + p {
-  margin-top: 24px;
-}
 .globe-art {
   position: relative;
   width: 100%;

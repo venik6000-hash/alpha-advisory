@@ -126,8 +126,6 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
 
   let disposed = false;
   let visible = true;
-  let hovered = false;
-  let focused = false;
   let pointer = null;
   let dirty = true;
   let frame = 0;
@@ -157,7 +155,7 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
       if (Math.abs(velocityX) < 0.006) velocityX = 0;
       if (Math.abs(velocityY) < 0.006) velocityY = 0;
       dirty = true;
-    } else if (autoRotate && !hovered && !focused && !pointer) {
+    } else if (autoRotate && !pointer) {
       earth.rotation.y += delta * 0.075;
       dirty = true;
     }
@@ -271,18 +269,6 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
     pointerup: endDrag,
     pointercancel: endDrag,
     lostpointercapture: endDrag,
-    pointerenter: () => {
-      hovered = true;
-    },
-    pointerleave: () => {
-      hovered = false;
-    },
-    focus: () => {
-      focused = true;
-    },
-    blur: () => {
-      focused = false;
-    },
     keydown,
     webglcontextlost: (event) => {
       event.preventDefault();
@@ -302,10 +288,6 @@ export function createGlobe(host, { autoRotate, onReady, onFailure }) {
   onReady();
 
   return {
-    setAutoRotate(value) {
-      autoRotate = value;
-      if (!value) stopMomentum();
-    },
     dispose() {
       disposed = true;
       cancelAnimationFrame(frame);

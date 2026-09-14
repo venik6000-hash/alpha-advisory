@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
 
-test("a released drag keeps moving, settles, and stops when grabbed again", async ({
+test("a released drag resumes auto-rotation and stops while grabbed", async ({
   page,
 }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1280, height: 880 });
   await page.goto("/#network");
   const globe = page.getByLabel("Interactive Earth globe", { exact: false });
@@ -17,16 +17,10 @@ test("a released drag keeps moving, settles, and stops when grabbed again", asyn
   await page.mouse.down();
   await page.mouse.move(bounds.x + 300, bounds.y + 210, { steps: 10 });
   await page.mouse.up();
-  const released = await globe.screenshot();
-  await page.waitForTimeout(300);
-  expect(released.equals(await globe.screenshot())).toBe(false);
   await page.waitForTimeout(3500);
-  const settled = await globe.screenshot();
-  await page.waitForTimeout(250);
-  expect(settled.equals(await globe.screenshot())).toBe(true);
-  await page.mouse.down();
-  await page.mouse.move(bounds.x + 190, bounds.y + 190, { steps: 10 });
-  await page.mouse.up();
+  const resumed = await globe.screenshot();
+  await page.waitForTimeout(300);
+  expect(resumed.equals(await globe.screenshot())).toBe(false);
   await page.mouse.down();
   const grabbed = await globe.screenshot();
   await page.waitForTimeout(300);
@@ -65,35 +59,21 @@ test("the 3D globe renders, can be dragged, and supports keyboard rotation", asy
   await globe.focus();
   await page.keyboard.press("ArrowLeft");
   expect(after.equals(await globe.screenshot())).toBe(false);
-  await expect(
-    page.getByRole("button", { name: "Start globe rotation" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Start globe rotation" }).click();
-  await expect(
-    page.getByRole("button", { name: "Pause globe rotation" }),
-  ).toBeVisible();
-  await page.mouse.move(10, 100);
-  const autoFrame = await globe.screenshot();
-  await expect
-    .poll(async () => autoFrame.equals(await globe.screenshot()))
-    .toBe(false);
 });
 
-test("the globe controls keep rotation control without the drag hint", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
+test("the globe has no rotation controls or drag hint", async ({ page }) => {
   await page.goto("/#network");
   await expect(page.locator(".interactive-globe")).toHaveAttribute(
     "data-ready",
     "true",
   );
+  await expect(page.locator(".globe-controls")).toHaveCount(0);
   await expect(page.getByText("Drag to rotate", { exact: true })).toHaveCount(
     0,
   );
   await expect(
-    page.getByRole("button", { name: "Start globe rotation" }),
-  ).toBeVisible();
+    page.getByRole("button", { name: /globe rotation/i }),
+  ).toHaveCount(0);
 });
 
 test("the original illustration stays available when WebGL is unavailable", async ({
