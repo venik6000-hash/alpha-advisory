@@ -171,7 +171,7 @@ function Header({ active }) {
             aria-pressed={language === "ka"}
             onClick={() => setLanguage("ka")}
           >
-            KA
+            GE
           </button>
         </div>
         <button
