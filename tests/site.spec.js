@@ -1,5 +1,13 @@
 import { test, expect } from "@playwright/test";
 
+const contactEndpoint =
+  "https://formsubmit.co/ajax/infoalphaadvisory@gmail.com";
+
+// Automated tests never send email to the real recipient.
+test.beforeEach(async ({ page }) => {
+  await page.route("https://formsubmit.co/**", (route) => route.abort());
+});
+
 test("all six sections render and service enquiry reaches the contact form", async ({
   page,
 }) => {
@@ -15,7 +23,7 @@ test("all six sections render and service enquiry reaches the contact form", asy
   );
 });
 
-test("form validates and never reports delivery without a configured endpoint", async ({
+test("form validates and preserves the draft when delivery fails", async ({
   page,
 }) => {
   await page.goto("/#contact");
@@ -108,5 +116,65 @@ for (const width of [320, 390, 768, 1024, 1440]) {
         page.getByRole("button", { name: "მენიუს გახსნა" }),
       ).toBeVisible();
     }
+  });
+}
+
+async function fillEnquiry(page) {
+  await page.goto("/#contact");
+  await page.locator("#name").fill("Test visitor");
+  await page.locator("#email").fill("test@example.com");
+  await page.locator("#company").fill("Test company");
+  await page.locator("#message").fill("Тест / სატესტო შეტყობინება");
+}
+
+test("accepted enquiries go to the configured recipient with all fields", async ({
+  page,
+}) => {
+  let submitted;
+  await page.route(contactEndpoint, async (route) => {
+    submitted = route.request().postDataJSON();
+    await route.fulfill({ json: { success: "true", message: "Success" } });
+  });
+  await fillEnquiry(page);
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.getByRole("status")).toContainText("Thank you");
+  expect(submitted).toMatchObject({
+    name: "Test visitor",
+    email: "test@example.com",
+    company: "Test company",
+    message: "Тест / სატესტო შეტყობინება",
+    language: "en",
+    _subject: "Alpha Advisory — New website enquiry",
+    _template: "table",
+    _honey: "",
+  });
+  expect(submitted._url).toContain("#contact");
+  await expect(page.locator("#message")).toHaveValue("");
+  await expect(page.locator("#email")).toHaveValue("");
+});
+
+for (const result of [
+  {
+    label: "unactivated mailbox",
+    json: { success: "false", message: "This form needs Activation." },
+  },
+  { label: "rejected request", json: { success: false } },
+  { label: "unexpected response", body: "not JSON", contentType: "text/plain" },
+  { label: "server error", status: 500, json: { success: true } },
+]) {
+  test(`${result.label} never shows success or clears the enquiry`, async ({
+    page,
+  }) => {
+    const { label, ...response } = result;
+    await page.route(contactEndpoint, (route) => route.fulfill(response));
+    await fillEnquiry(page);
+    await page.getByRole("button", { name: "Send message" }).click();
+    await expect(page.getByRole("status")).toContainText("not been sent");
+    await expect(page.locator("#message")).toHaveValue(
+      "Тест / სატესტო შეტყობინება",
+    );
+    await expect(
+      page.getByRole("link", { name: "infoalphaadvisory@gmail.com" }),
+    ).toHaveAttribute("href", "mailto:infoalphaadvisory@gmail.com");
   });
 }

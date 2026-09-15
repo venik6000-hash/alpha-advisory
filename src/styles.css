@@ -2151,3 +2151,7 @@ html:lang(ka) .hero-actions {
     font-size: 32px;
   }
 }
+
+.form-honeypot {
+  display: none;
+}

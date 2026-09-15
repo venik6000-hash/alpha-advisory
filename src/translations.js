@@ -1,4 +1,6 @@
 export const georgian = {
+  "Your message has not been sent. Please try again or email us directly.":
+    "თქვენი შეტყობინება არ გაგზავნილა. სცადეთ ხელახლა ან მოგვწერეთ პირდაპირ ელფოსტაზე.",
   Expertise: "ექსპერტიზა",
   "Our approach": "ჩვენი მიდგომა",
   "About us": "ჩვენ შესახებ",

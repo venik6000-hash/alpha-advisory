@@ -3,21 +3,28 @@ import { useState } from "react";
 import Arrow from "./Arrow.jsx";
 import { linkedin } from "./content.js";
 
+export const contactEmail = "infoalphaadvisory@gmail.com";
+const endpoint =
+  import.meta.env.VITE_CONTACT_ENDPOINT ||
+  `https://formsubmit.co/ajax/${contactEmail}`;
+
 export default function ContactForm({ message, onMessageChange }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
-  const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
 
   async function handleSubmit(event) {
     event.preventDefault();
     const form = event.currentTarget;
-    if (!endpoint) {
-      setStatus(
-        "Your message has not been sent. Please connect with Lasha on LinkedIn to start a conversation.",
-      );
-      return;
-    }
+    if (sending) return;
+    const fields = Object.fromEntries(new FormData(form));
+    const payload = {
+      ...fields,
+      _subject: "Alpha Advisory — New website enquiry",
+      _template: "table",
+      _url: window.location.href,
+      language,
+    };
 
     setSending(true);
     setStatus("");
@@ -28,16 +35,21 @@ export default function ContactForm({ message, onMessageChange }) {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(payload),
         signal: AbortSignal.timeout(15000),
       });
       if (!response.ok) throw new Error("Submission failed");
+      const result = await response.json();
+      // FormSubmit can return HTTP 200 for inactive forms and rejected requests.
+      if (result.success !== true && result.success !== "true") {
+        throw new Error("Submission was not accepted");
+      }
       setStatus("Thank you. Your message has been submitted.");
       form.reset();
       onMessageChange("");
     } catch {
       setStatus(
-        "Your message could not be sent. Please try again or connect with Lasha on LinkedIn.",
+        "Your message has not been sent. Please try again or email us directly.",
       );
     } finally {
       setSending(false);
@@ -55,6 +67,7 @@ export default function ContactForm({ message, onMessageChange }) {
             name="name"
             autoComplete="name"
             required
+            disabled={sending}
             maxLength={150}
             pattern=".*\S.*"
           />
@@ -67,6 +80,7 @@ export default function ContactForm({ message, onMessageChange }) {
             type="email"
             autoComplete="email"
             required
+            disabled={sending}
             maxLength={254}
           />
         </label>
@@ -77,6 +91,7 @@ export default function ContactForm({ message, onMessageChange }) {
           id="company"
           name="company"
           autoComplete="organization"
+          disabled={sending}
           maxLength={200}
         />
       </label>
@@ -87,6 +102,7 @@ export default function ContactForm({ message, onMessageChange }) {
           name="message"
           placeholder={t("Tell us a little about your priorities.")}
           required
+          disabled={sending}
           maxLength={5000}
           value={message}
           onChange={(event) => onMessageChange(event.target.value)}
@@ -95,14 +111,27 @@ export default function ContactForm({ message, onMessageChange }) {
       <button className="button" type="submit" disabled={sending}>
         {sending ? t("Sending…") : t("Send message")} <Arrow />
       </button>
+      <input
+        type="text"
+        name="_honey"
+        className="form-honeypot"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       <p className="form-note">{t("Fields marked * are required.")} </p>
       {status && (
         <div className="form-status" role="status">
           {t(status)}
           {!status.startsWith("Thank you") && (
-            <a href={linkedin} target="_blank" rel="noopener noreferrer">
-              {t("Connect with Lasha")} <Arrow />
-            </a>
+            <>
+              <a href={`mailto:${contactEmail}`}>
+                {contactEmail} <Arrow />
+              </a>
+              <a href={linkedin} target="_blank" rel="noopener noreferrer">
+                {t("Connect with Lasha")} <Arrow />
+              </a>
+            </>
           )}
         </div>
       )}
