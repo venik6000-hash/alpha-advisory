@@ -11,7 +11,6 @@ function Logo() {
     <a className="logo" href="#home" aria-label={t("Alpha Advisory home")}>
       <svg viewBox="0 0 40 44" aria-hidden="true">
         <path fill="currentColor" d="M18 2 38 42H28L13 12zM9 28h9L11 42H1z" />
-        <path fill="#426885" d="m19 25 6 13h-7l-4-7z" />
       </svg>
       <span>Alpha Advisory</span>
     </a>
