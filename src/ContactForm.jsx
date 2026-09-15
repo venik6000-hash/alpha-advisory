@@ -1,8 +1,10 @@
+import { useLanguage } from "./Language.jsx";
 import { useState } from "react";
 import Arrow from "./Arrow.jsx";
 import { linkedin } from "./content.js";
 
 export default function ContactForm({ message, onMessageChange }) {
+  const { t } = useLanguage();
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
   const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
@@ -44,10 +46,10 @@ export default function ContactForm({ message, onMessageChange }) {
 
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
-      <h3>Tell us about your business.</h3>
+      <h3>{t("Tell us about your business.")} </h3>
       <div className="form-row">
         <label htmlFor="name">
-          Name *
+          {t("Name *")}{" "}
           <input
             id="name"
             name="name"
@@ -58,7 +60,7 @@ export default function ContactForm({ message, onMessageChange }) {
           />
         </label>
         <label htmlFor="email">
-          Email *
+          {t("Email *")}{" "}
           <input
             id="email"
             name="email"
@@ -70,7 +72,7 @@ export default function ContactForm({ message, onMessageChange }) {
         </label>
       </div>
       <label htmlFor="company">
-        Company (optional)
+        {t("Company (optional)")}{" "}
         <input
           id="company"
           name="company"
@@ -79,11 +81,11 @@ export default function ContactForm({ message, onMessageChange }) {
         />
       </label>
       <label htmlFor="message">
-        How can we help? *
+        {t("How can we help? *")}{" "}
         <textarea
           id="message"
           name="message"
-          placeholder="Tell us a little about your priorities."
+          placeholder={t("Tell us a little about your priorities.")}
           required
           maxLength={5000}
           value={message}
@@ -91,16 +93,15 @@ export default function ContactForm({ message, onMessageChange }) {
         />
       </label>
       <button className="button" type="submit" disabled={sending}>
-        {sending ? "Sending…" : "Send message"}{" "}
-        <Arrow />
+        {sending ? t("Sending…") : t("Send message")} <Arrow />
       </button>
-      <p className="form-note">Fields marked * are required.</p>
+      <p className="form-note">{t("Fields marked * are required.")} </p>
       {status && (
         <div className="form-status" role="status">
-          {status}
+          {t(status)}
           {!status.startsWith("Thank you") && (
             <a href={linkedin} target="_blank" rel="noopener noreferrer">
-              Connect with Lasha <Arrow />
+              {t("Connect with Lasha")} <Arrow />
             </a>
           )}
         </div>

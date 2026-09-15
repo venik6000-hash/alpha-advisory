@@ -1,5 +1,5 @@
 :root {
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Inter", "Noto Sans Georgian", Arial, sans-serif;
   color: #0a1327;
   background: #f6f7f9;
   font-synthesis: none;
@@ -11,7 +11,8 @@
   --muted: #586780;
   --line: #d3dce6;
   --section-space: 72px;
-  --serif: "Times New Roman", Times, "Liberation Serif", serif;
+  --serif:
+    "Times New Roman", Times, "Liberation Serif", "Noto Serif Georgian", serif;
 }
 
 * {
@@ -487,7 +488,13 @@ h1 {
   left: 50%;
   top: calc(var(--tree-top) - var(--tree-width) * 0.03);
   transform: translateX(-50%);
-  mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 86%, transparent);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 8%,
+    #000 86%,
+    transparent
+  );
 }
 .steps {
   position: relative;
@@ -1958,5 +1965,189 @@ textarea:focus {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Keep the language control visible independently of the mobile menu. */
+.language-switch {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2px;
+  order: 3;
+  margin-left: 18px;
+}
+.language-switch button {
+  border: 0;
+  border-radius: 2px;
+  padding: 0 8px;
+  min-height: 40px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+}
+.language-switch button[aria-pressed="true"] {
+  background: var(--navy);
+  color: white;
+}
+.navigation {
+  gap: 24px;
+  margin-left: auto;
+}
+.navigation .header-cta {
+  margin-left: 8px;
+}
+.header-inner {
+  gap: 12px;
+}
+:lang(ka) .eyebrow {
+  letter-spacing: 0.5px;
+  text-transform: none;
+}
+html:lang(ka) h1,
+html:lang(ka) h2,
+html:lang(ka) h3 {
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+}
+html:lang(ka) .hero h1 {
+  font-size: 68px;
+}
+html:lang(ka) .approach-heading h2 {
+  font-size: 58px;
+}
+html:lang(ka) .network h2,
+html:lang(ka) .contact h2 {
+  font-size: 48px;
+}
+html:lang(ka) .service h3 {
+  font-size: 27px;
+}
+html:lang(ka) .founder-copy > h2 {
+  font-size: 48px;
+}
+html:lang(ka) .step h3 {
+  font-size: 24px;
+}
+html:lang(ka) .approach-body {
+  height: auto;
+  min-height: 540px;
+}
+html:lang(ka) .steps {
+  row-gap: 48px;
+}
+html:lang(ka) .founder-role {
+  flex-wrap: wrap;
+}
+html:lang(ka) .founder-credentials p {
+  overflow-wrap: anywhere;
+}
+html:lang(ka) .button {
+  min-width: 0;
+}
+html:lang(ka) .hero-actions {
+  flex-wrap: wrap;
+}
+@media (min-width: 701px) and (max-width: 1150px) {
+  .navigation {
+    gap: 12px;
+  }
+  .navigation > a {
+    font-size: 11px;
+  }
+  .navigation .header-cta {
+    padding-inline: 10px;
+  }
+  .language-switch {
+    margin-left: 0;
+  }
+  html:lang(ka) .header-inner {
+    width: calc(100% - 32px);
+  }
+  html:lang(ka) .logo span {
+    font-size: 23px;
+  }
+  html:lang(ka) .navigation {
+    gap: 8px;
+  }
+  html:lang(ka) .navigation > a {
+    font-size: 10px;
+  }
+}
+@media (max-width: 700px) {
+  .language-switch {
+    order: 0;
+    margin-left: auto;
+  }
+  .header-inner {
+    gap: 6px;
+  }
+  .menu-toggle {
+    flex-shrink: 0;
+  }
+  .navigation {
+    margin-left: 0;
+  }
+  .logo span {
+    font-size: 23px;
+  }
+  .logo svg {
+    width: 25px;
+  }
+  html:lang(ka) .hero h1 {
+    font-size: 43px;
+  }
+  html:lang(ka) .approach-heading h2,
+  html:lang(ka) .network h2,
+  html:lang(ka) .contact h2,
+  html:lang(ka) .founder-copy > h2,
+  html:lang(ka) .section-heading h2 {
+    font-size: 34px;
+  }
+  html:lang(ka) .steps {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  html:lang(ka) .contact-form h3 {
+    font-size: 28px;
+  }
+  html:lang(ka) .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 370px) {
+  .header-inner {
+    width: calc(100% - 24px);
+  }
+  .logo span {
+    font-size: 21px;
+  }
+  .logo {
+    gap: 4px;
+  }
+  .language-switch button {
+    padding-inline: 6px;
+  }
+  html:lang(ka) .hero h1 {
+    font-size: 36px;
+  }
+}
+
+/* Translated accessibility labels can occupy more than one line. */
+.skip-link {
+  top: 10px;
+  transform: translateY(calc(-100% - 20px));
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  html:lang(ka) .tree-art {
+    --tree-width: 340px;
+  }
+}
+@media (max-width: 370px) {
+  html:lang(ka) .hero h1 {
+    font-size: 32px;
   }
 }

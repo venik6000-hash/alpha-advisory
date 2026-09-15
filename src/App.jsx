@@ -1,3 +1,4 @@
+import { useLanguage } from "./Language.jsx";
 import { useEffect, useState } from "react";
 import { linkedin, navigation, services, steps } from "./content.js";
 import ContactForm from "./ContactForm.jsx";
@@ -5,8 +6,9 @@ import Globe from "./Globe.jsx";
 import Arrow from "./Arrow.jsx";
 
 function Logo() {
+  const { t } = useLanguage();
   return (
-    <a className="logo" href="#home" aria-label="Alpha Advisory home">
+    <a className="logo" href="#home" aria-label={t("Alpha Advisory home")}>
       <svg viewBox="0 0 40 44" aria-hidden="true">
         <path fill="currentColor" d="M18 2 38 42H28L13 12zM9 28h9L11 42H1z" />
         <path fill="#426885" d="m19 25 6 13h-7l-4-7z" />
@@ -35,12 +37,13 @@ function LinkedInLink({ children }) {
 }
 
 function Button({ children, note = false }) {
+  const { t } = useLanguage();
   return (
     <div className="cta">
       <a className="button" href="#contact">
         {children} <Arrow />
       </a>
-      {note && <small>A first conversation. No obligation.</small>}
+      {note && <small>{t("A first conversation. No obligation.")} </small>}
     </div>
   );
 }
@@ -133,6 +136,7 @@ function ServiceIcon({ name }) {
 }
 
 function Header({ active }) {
+  const { t, language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -147,10 +151,34 @@ function Header({ active }) {
     <header className="site-header">
       <div className="header-inner">
         <Logo />
+        <div
+          className="language-switch"
+          role="group"
+          aria-label={t("Language")}
+        >
+          <button
+            type="button"
+            lang="en"
+            aria-label="English"
+            aria-pressed={language === "en"}
+            onClick={() => setLanguage("en")}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            lang="ka"
+            aria-label="ქართული"
+            aria-pressed={language === "ka"}
+            onClick={() => setLanguage("ka")}
+          >
+            KA
+          </button>
+        </div>
         <button
           className={`menu-toggle${open ? " open" : ""}`}
           type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t("Close menu") : t("Open menu")}
           aria-expanded={open}
           aria-controls="main-navigation"
           onClick={() => setOpen(!open)}
@@ -161,7 +189,7 @@ function Header({ active }) {
         <nav
           id="main-navigation"
           className={open ? "navigation is-open" : "navigation"}
-          aria-label="Main navigation"
+          aria-label={t("Main navigation")}
         >
           {navigation.map(([id, title]) => (
             <a
@@ -171,7 +199,7 @@ function Header({ active }) {
               aria-current={active === id ? "location" : undefined}
               onClick={() => setOpen(false)}
             >
-              {title}
+              {t(title)}
             </a>
           ))}
           <a
@@ -179,7 +207,7 @@ function Header({ active }) {
             href="#contact"
             onClick={() => setOpen(false)}
           >
-            Let’s talk <Arrow />
+            {t("Let’s talk")} <Arrow />
           </a>
         </nav>
       </div>
@@ -188,6 +216,7 @@ function Header({ active }) {
 }
 
 function Hero() {
+  const { t } = useLanguage();
   return (
     <section id="home" className="hero-section" aria-labelledby="hero-title">
       <div className="hero dark">
@@ -201,22 +230,21 @@ function Hero() {
         <div className="container hero-inner">
           <div className="hero-copy">
             <p className="eyebrow">
-              Strategic finance · Georgia &amp; the Caucasus
+              {t("Strategic finance · Georgia & the Caucasus")}{" "}
             </p>
             <h1 id="hero-title">
-              Clarity today. <br />
-              Confidence in <br />
-              what’s next.
+              {t("Clarity today.")} <br />
+              {t("Confidence in")} <br />
+              {t("what’s next.")}{" "}
             </h1>
             <p className="hero-description">
-              Financial strategy, CFO advisory and investment support.
-              <br />
-              {" International expertise. Local understanding."}
+              {t("Financial strategy, CFO advisory and investment support.")}{" "}
+              <br /> {t("International expertise. Local understanding.")}
             </p>
             <div className="hero-actions">
-              <Button note>Discuss your business</Button>
+              <Button note>{t("Discuss your business")} </Button>
               <a className="text-link" href="#expertise">
-                Explore our expertise <Arrow straight />
+                {t("Explore our expertise")} <Arrow straight />
               </a>
             </div>
           </div>
@@ -224,19 +252,19 @@ function Hero() {
       </div>
       <div className="credentials container">
         <div>
-          <p className="eyebrow">Founder-led expertise</p>
-          <h2 id="about-title">Lasha Khanishvili</h2>
-          <p>ACCA Qualified · MBA, Webster University</p>
+          <p className="eyebrow">{t("Founder-led expertise")} </p>
+          <h2 id="about-title">{t("Lasha Khanishvili")} </h2>
+          <p>{t("ACCA Qualified · MBA, Webster University")} </p>
         </div>
         <div>
-          <p className="eyebrow">Finance &amp; accounting</p>
-          <h3>15+ years</h3>
-          <p>Founder’s professional experience</p>
+          <p className="eyebrow">{t("Finance & accounting")} </p>
+          <h3>{t("15+ years")} </h3>
+          <p>{t("Founder’s professional experience")} </p>
         </div>
         <div>
-          <p className="eyebrow">International connections</p>
+          <p className="eyebrow">{t("International connections")} </p>
           <h3>Alpha Mosaic Network</h3>
-          <p>Regional partner for Georgia &amp; the Caucasus</p>
+          <p>{t("Regional partner for Georgia & the Caucasus")} </p>
         </div>
       </div>
     </section>
@@ -244,24 +272,25 @@ function Hero() {
 }
 
 function Expertise({ onEnquire }) {
+  const { t } = useLanguage();
   return (
     <section id="expertise" aria-labelledby="expertise-title">
       <div className="container expertise-content">
         <div className="section-heading reveal">
           <div>
-            <p className="eyebrow">How we help</p>
-            <h2 id="expertise-title">Expertise for your next stage.</h2>
+            <p className="eyebrow">{t("How we help")} </p>
+            <h2 id="expertise-title">{t("Expertise for your next stage.")} </h2>
           </div>
         </div>
         <div id="services" className="services-grid">
           {services.map((service) => (
             <article className="service reveal" key={service.title}>
               <ServiceIcon name={service.icon} />
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
+              <h3>{t(service.title)}</h3>
+              <p>{t(service.description)}</p>
               <ul>
                 {service.items.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item}>{t(item)}</li>
                 ))}
               </ul>
               <a
@@ -269,7 +298,7 @@ function Expertise({ onEnquire }) {
                 href="#contact"
                 onClick={() => onEnquire(service.title)}
               >
-                Explore service <Arrow />
+                {t("Explore service")} <Arrow />
               </a>
             </article>
           ))}
@@ -280,6 +309,7 @@ function Expertise({ onEnquire }) {
 }
 
 function Approach() {
+  const { t } = useLanguage();
   return (
     <section
       id="approach"
@@ -288,9 +318,11 @@ function Approach() {
     >
       <div className="container">
         <div className="approach-heading reveal">
-          <p className="eyebrow">Our approach</p>
-          <h2 id="approach-title">Clarity that takes root.</h2>
-          <p>Financial insight. Practical action. Lasting confidence.</p>
+          <p className="eyebrow">{t("Our approach")} </p>
+          <h2 id="approach-title">{t("Clarity that takes root.")} </h2>
+          <p>
+            {t("Financial insight. Practical action. Lasting confidence.")}{" "}
+          </p>
         </div>
         <div className="approach-body">
           <img
@@ -308,17 +340,17 @@ function Approach() {
                 key={step.number}
               >
                 <p className="eyebrow">
-                  {step.number} / {step.label}
+                  {step.number} / {t(step.label)}
                 </p>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
+                <h3>{t(step.title)}</h3>
+                <p>{t(step.text)}</p>
               </article>
             ))}
           </div>
         </div>
         <div className="approach-bottom">
-          <h3>Built to work beyond the engagement.</h3>
-          <Button note>Start a conversation</Button>
+          <h3>{t("Built to work beyond the engagement.")} </h3>
+          <Button note>{t("Start a conversation")} </Button>
         </div>
       </div>
     </section>
@@ -326,6 +358,7 @@ function Approach() {
 }
 
 function About() {
+  const { t } = useLanguage();
   return (
     <section
       id="about"
@@ -337,41 +370,45 @@ function About() {
           <img
             className="founder-portrait"
             src={`${import.meta.env.BASE_URL}assets/lasha-khanishvili.jpg`}
-            alt="Lasha Khanishvili, founder of Alpha Advisory"
+            alt={t("Lasha Khanishvili, founder of Alpha Advisory")}
             width="853"
             height="1280"
             loading="lazy"
           />
         </div>
         <div className="founder-copy reveal">
-          <h2 id="about-title">Lasha Khanishvili</h2>
+          <h2 id="about-title">{t("Lasha Khanishvili")} </h2>
           <div className="founder-role">
-            <p>Founder, Alpha Advisory</p>
-            <LinkedInLink>View profile</LinkedInLink>
+            <p>{t("Founder, Alpha Advisory")} </p>
+            <LinkedInLink>{t("View profile")} </LinkedInLink>
           </div>
           <div className="founder-bio">
             <p>
-              More than 15 years in finance and accounting, combining
-              international qualifications with an understanding of business in
-              Georgia and the Caucasus.
+              {t(
+                "More than 15 years in finance and accounting, combining international qualifications with an understanding of business in Georgia and the Caucasus.",
+              )}{" "}
             </p>
-            <p>Practical financial advice, with your business at the centre.</p>
+            <p>
+              {t(
+                "Practical financial advice, with your business at the centre.",
+              )}{" "}
+            </p>
           </div>
           <div className="founder-credentials">
             <div className="experience">
               <strong>15+</strong>
-              <p>years in finance &amp; accounting</p>
+              <p>{t("years in finance & accounting")} </p>
             </div>
             <div>
               <h4>ACCA</h4>
-              <p>Qualified</p>
+              <p>{t("Qualified")} </p>
             </div>
             <div>
               <h4>MBA</h4>
-              <p>Webster University</p>
+              <p>{t("Webster University")} </p>
             </div>
           </div>
-          <Button note>Speak with Lasha</Button>
+          <Button note>{t("Speak with Lasha")} </Button>
         </div>
       </div>
     </section>
@@ -379,6 +416,7 @@ function About() {
 }
 
 function Network() {
+  const { t } = useLanguage();
   return (
     <section
       id="network"
@@ -388,20 +426,21 @@ function Network() {
       <div className="container">
         <div className="network-main">
           <div className="network-copy reveal">
-            <p className="eyebrow">Global network</p>
+            <p className="eyebrow">{t("Global network")} </p>
             <h2 id="network-title">
-              International perspective. <br />
-              Local understanding.
+              {t("International perspective.")} <br />
+              {t("Local understanding.")}{" "}
             </h2>
             <h3>Alpha Mosaic Network</h3>
             <p className="network-subtitle">
-              Regional partner for Georgia &amp; the Caucasus
+              {t("Regional partner for Georgia & the Caucasus")}{" "}
             </p>
             <p className="network-description">
-              International expertise, connected to the realities
-              <br className="desktop-break" /> of doing business in our region.
+              {t("International expertise, connected to the realities")}{" "}
+              <br className="desktop-break" />
+              {t("of doing business in our region.")}{" "}
             </p>
-            <Button>Discuss your business</Button>
+            <Button>{t("Discuss your business")} </Button>
           </div>
           <div className="globe-wrapper">
             <Globe
@@ -418,17 +457,17 @@ function Network() {
                 />
               }
             />
-            <p>Based in Tbilisi, Georgia</p>
+            <p>{t("Based in Tbilisi, Georgia")} </p>
           </div>
         </div>
         <div className="network-bottom reveal">
           <div>
-            <p className="eyebrow">For businesses in Georgia</p>
-            <h3>A wider perspective on your next stage.</h3>
+            <p className="eyebrow">{t("For businesses in Georgia")} </p>
+            <h3>{t("A wider perspective on your next stage.")} </h3>
           </div>
           <div>
-            <p className="eyebrow">For international businesses</p>
-            <h3>Local guidance for entering a new market.</h3>
+            <p className="eyebrow">{t("For international businesses")} </p>
+            <h3>{t("Local guidance for entering a new market.")} </h3>
           </div>
         </div>
       </div>
@@ -437,6 +476,7 @@ function Network() {
 }
 
 function Contact({ message, onMessageChange }) {
+  const { t } = useLanguage();
   return (
     <section
       id="contact"
@@ -444,25 +484,25 @@ function Contact({ message, onMessageChange }) {
       aria-labelledby="contact-title"
     >
       <div className="contact-copy reveal">
-        <p className="eyebrow">Let’s talk</p>
+        <p className="eyebrow">{t("Let’s talk")} </p>
         <h2 id="contact-title">
-          Let’s talk <br />
-          about what’s next.
+          {t("Let’s talk")} <br />
+          {t("about what’s next.")}{" "}
         </h2>
         <p className="contact-intro">
-          Tell us where your business stands. <br />
-          We’ll help you define the next step.
+          {t("Tell us where your business stands.")} <br />
+          {t("We’ll help you define the next step.")}{" "}
         </p>
         <p className="contact-reassurance">
-          A first conversation. No obligation.
+          {t("A first conversation. No obligation.")}{" "}
         </p>
         <div className="contact-linkedin">
-          <p className="eyebrow">Prefer LinkedIn?</p>
-          <LinkedInLink>Connect with Lasha</LinkedInLink>
+          <p className="eyebrow">{t("Prefer LinkedIn?")} </p>
+          <LinkedInLink>{t("Connect with Lasha")} </LinkedInLink>
         </div>
         <p className="location">
-          Tbilisi, Georgia <br />
-          <span>Working across Georgia &amp; the Caucasus.</span>
+          {t("Tbilisi, Georgia")} <br />
+          <span>{t("Working across Georgia & the Caucasus.")} </span>
         </p>
       </div>
       <div className="reveal">
@@ -473,25 +513,26 @@ function Contact({ message, onMessageChange }) {
 }
 
 function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="footer dark">
       <div className="container">
         <div className="footer-top">
           <div>
             <Logo />
-            <p>Strategic finance for Georgia &amp; the Caucasus.</p>
+            <p>{t("Strategic finance for Georgia & the Caucasus.")} </p>
           </div>
-          <nav aria-label="Footer navigation">
+          <nav aria-label={t("Footer navigation")}>
             {navigation.map(([id, title]) => (
               <a href={`#${id}`} key={id}>
-                {title}
+                {t(title)}
               </a>
             ))}
           </nav>
         </div>
         <div className="footer-bottom">
           <p>© 2026 Alpha Advisory.</p>
-          <LinkedInLink>Lasha Khanishvili</LinkedInLink>
+          <LinkedInLink>{t("Lasha Khanishvili")} </LinkedInLink>
         </div>
       </div>
     </footer>
@@ -499,6 +540,7 @@ function Footer() {
 }
 
 export default function App() {
+  const { t } = useLanguage();
   const [message, setMessage] = useState("");
   const [active, setActive] = useState("home");
 
@@ -542,13 +584,17 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#main">
-        Skip to content
+        {t("Skip to content")}{" "}
       </a>
       <Header active={active} />
       <main id="main">
         <Hero />
         <Expertise
-          onEnquire={(title) => setMessage(`I’d like to discuss ${title}.\n\n`)}
+          onEnquire={(title) =>
+            setMessage(
+              `${t("I’d like to discuss {service}.").replace("{service}", t(title))}\n\n`,
+            )
+          }
         />
         <Approach />
         <About />

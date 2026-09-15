@@ -1,6 +1,8 @@
+import { useLanguage } from "./Language.jsx";
 import { useEffect, useRef, useState } from "react";
 
 export default function Globe({ fallback }) {
+  const { t, language } = useLanguage();
   const host = useRef(null);
   const scene = useRef(null);
   const [ready, setReady] = useState(false);
@@ -39,6 +41,18 @@ export default function Globe({ fallback }) {
       scene.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const canvas = host.current?.querySelector("canvas");
+    canvas?.setAttribute(
+      "aria-label",
+      t(
+        "Interactive Earth globe with a pin marking Tbilisi, Georgia. Drag to rotate, or use the arrow keys. Press Home to reset.",
+      ),
+    );
+    const label = host.current?.querySelector(".globe-label");
+    if (label) label.textContent = t("Georgia");
+  }, [language, ready]);
 
   return (
     <div
